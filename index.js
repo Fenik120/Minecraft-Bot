@@ -1257,6 +1257,17 @@ function createBot() {
       addLog(
         `[Bot] [+] Successfully spawned on server! (Version: ${bot.version})`,
       );
+          // ============================================================
+      // 1-HOUR AUTO-RESTART CYCLE
+      // ============================================================
+      const oneHourMs = 60 * 60 * 1000; // 60 mins * 60 secs * 1000 ms
+      setTimeout(() => {
+        if (bot && botState.connected) {
+          addLog("[System] 1 hour reached. Leaving server to cycle connection...");
+          bot.quit(); // This safely disconnects the bot. The 'end' event will auto-rejoin.
+        }
+      }, oneHourMs);
+      // ============================================================
       if (
         config.discord &&
         config.discord.events &&
